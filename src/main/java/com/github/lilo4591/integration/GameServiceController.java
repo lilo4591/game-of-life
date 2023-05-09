@@ -21,10 +21,7 @@ public class GameServiceController {
     @PostMapping(
             value = "/game", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GameOfLifeResponse> gameTick(@RequestBody GameOfLifeRequest request) {
-        System.out.println(request.getId());
         System.out.println(request.getCoordinates().toString());
-        System.out.println(request.getHeight());
-        System.out.println(request.getWidth());
         return ResponseEntity.ok(mapper.handleRequest(request));
     }
 
