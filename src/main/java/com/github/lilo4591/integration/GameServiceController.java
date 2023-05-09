@@ -4,12 +4,11 @@ import com.github.lilo4591.integration.mapper.Mapper;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class GameServiceController {
 
     Mapper mapper = new Mapper();
-
     @GetMapping("/game")
     public ResponseEntity<GameOfLifeInitBoardResponse> gameInit() {
         return ResponseEntity.ok(mapper.mapInitBoardResponse());
