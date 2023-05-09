@@ -8,8 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GameImplTest {
     private GameImpl game;
@@ -274,9 +273,49 @@ class GameImplTest {
         assertTrue(gameBoard.getGridValue(2,0));
         assertFalse(gameBoard.getGridValue(2,1));
         assertTrue(gameBoard.getGridValue(2,2));
-
     }
 
+
+    /**
+     *
+     * [true,false,false]
+     * [true,true,false]   --> (1,1) = 5 etc..
+     * [true,true, true]
+     */
+    @Test
+    void testCountLiveNeighbours() {
+        ArrayList<int[]> aliveGrids = new ArrayList<>();
+        aliveGrids.add(new int[]{0, 0});
+        aliveGrids.add(new int[]{1, 0});
+        aliveGrids.add(new int[]{1, 1});
+        aliveGrids.add(new int[]{2, 0});
+        aliveGrids.add(new int[]{2, 1});
+        aliveGrids.add(new int[]{2, 2});
+
+        game.initializeSimulation(3, 3, aliveGrids);
+
+        int twoNeighbours = game.countLiveNeighbours(0,0);
+        assertEquals(2, twoNeighbours);
+        int threeNeighbours = game.countLiveNeighbours(0,1);
+        assertEquals(3, threeNeighbours);
+        int oneNeighbours = game.countLiveNeighbours(0,2);
+        assertEquals(1, oneNeighbours);
+
+        int fourNeighbours = game.countLiveNeighbours(1,0);
+        assertEquals(4, fourNeighbours);
+        int fiveNeighbours = game.countLiveNeighbours(1,1);
+        assertEquals(5, fiveNeighbours);
+        int threeNeighboursRowOne = game.countLiveNeighbours(1,2);
+        assertEquals(3, threeNeighboursRowOne);
+
+        int threeNeighboursRowTwo = game.countLiveNeighbours(2,0);
+        assertEquals(3, threeNeighboursRowTwo);
+        int fourNeighboursRowTwo = game.countLiveNeighbours(2,1);
+        assertEquals(4, fourNeighboursRowTwo);
+        int twoNeighboursRowTwo = game.countLiveNeighbours(2,2);
+        assertEquals(2, twoNeighboursRowTwo);
+
+    }
 
 
 

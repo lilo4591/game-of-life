@@ -5,8 +5,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-
 @RestController
 public class GameServiceController {
 
@@ -21,7 +19,6 @@ public class GameServiceController {
     @PostMapping(
             value = "/game", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GameOfLifeResponse> gameTick(@RequestBody GameOfLifeRequest request) {
-        System.out.println(request.getCoordinates().toString());
         return ResponseEntity.ok(mapper.handleRequest(request));
     }
 

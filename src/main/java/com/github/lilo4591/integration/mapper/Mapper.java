@@ -11,7 +11,7 @@ public class Mapper {
 
     GameImpl game = new GameImpl();
     private static final int ROWS = 40;
-    private static final int COLUMNS= 40;
+    private static final int COLUMNS = 40;
 
     public GameOfLifeResponse handleRequest(GameOfLifeRequest gameOfLifeRequest) {
         List<int[]> coordinates = gameOfLifeRequest.getCoordinates();

@@ -43,7 +43,7 @@ public class GameImpl {
      *
      * */
 
-    private int countLiveNeighbours(int row, int column) {
+    protected int countLiveNeighbours(int row, int column) {
         int count = 0;
         int numOfRows = gameBoard.getRows();
         int numOfCols = gameBoard.getCols();
