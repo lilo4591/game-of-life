@@ -11,7 +11,7 @@ import java.util.List;
 public class Mapper {
 
     private static final int ROWS = 20;
-    private static final int COLUMNS = 20;
+    private static final int COLUMNS = 40;
 
     public GameOfLifeResponse handlePostRequest(GameOfLifeRequest gameOfLifeRequest) {
         List<int[]> coordinates = gameOfLifeRequest.getCoordinates();

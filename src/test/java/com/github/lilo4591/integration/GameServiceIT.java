@@ -30,7 +30,7 @@ public class GameServiceIT {
 
     @Test
     public void testGetHappyFlow() throws IOException, InterruptedException {
-        String expectedResult = "{\"rows\":20,\"columns\":20}";
+        String expectedResult = "{\"rows\":20,\"columns\":40}";
 
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(targetURI)

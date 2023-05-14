@@ -31,7 +31,7 @@ Service: GET
 request: GET http://localhost:8080/game
 Response:
 ```
-{"rows":20,"columns":20}
+{"rows":20,"columns":40}
 ```
 
 Service: POST
