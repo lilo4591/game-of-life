@@ -13,7 +13,10 @@ This explanation assumes that you are using IntelliJ
 
 Open the project in an editor of your choice, preferably in IntelliJ ;)
 
-Build the project by maven clean install
+If you've worked with maven before you probably already have a maven settings file in your .m2 folder, otherwise point to the default maven settings file I have included in this repo like this:
+![maven settings](mavensettings.PNG)
+
+Build the project with maven clean install
 
 Run app like this or just head to application.java and start from there
 ![run locally](runlocally.PNG)
