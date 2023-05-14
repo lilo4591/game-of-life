@@ -7,9 +7,9 @@ public class GameBoard {
 
     private static final Logger LOGGER = Logger.getLogger(GameBoard.class.getName());
     private final boolean[][] board;
-
     private final int rows;
     private final int cols;
+
     public GameBoard(int rows, int cols) {
         this.board = new boolean[rows][cols];
         this.rows = rows;
@@ -31,6 +31,7 @@ public class GameBoard {
     void setCellValue(int row, int column, boolean cellValue) {
         board[row][column] = cellValue;
     }
+
     public void printBoard() {
         Arrays.stream(board)
                 .map(Arrays::toString)
