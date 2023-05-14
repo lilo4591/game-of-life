@@ -4,7 +4,6 @@ package com.github.lilo4591.integration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;

@@ -1,5 +1,6 @@
 package com.github.lilo4591.integration.mapper;
 
+import com.github.lilo4591.GameBoard;
 import com.github.lilo4591.GameImpl;
 import com.github.lilo4591.integration.GameOfLifeInitBoardResponse;
 import com.github.lilo4591.integration.GameOfLifeRequest;
@@ -9,13 +10,14 @@ import java.util.List;
 
 public class Mapper {
 
-    private final GameImpl game = new GameImpl();
     private static final int ROWS = 20;
     private static final int COLUMNS = 20;
 
-    public GameOfLifeResponse handleRequest(GameOfLifeRequest gameOfLifeRequest) {
+    public GameOfLifeResponse handlePostRequest(GameOfLifeRequest gameOfLifeRequest) {
         List<int[]> coordinates = gameOfLifeRequest.getCoordinates();
-        game.initializeSimulation(ROWS, COLUMNS, coordinates);
+        GameBoard gameBoard = new GameBoard(ROWS, COLUMNS);
+        GameImpl game = new GameImpl(gameBoard);
+        game.initializeActiveCellsOnBoard(coordinates);
         List<int[]> updatedCoordinates = game.update();
         return mapResponse(updatedCoordinates);
     }
@@ -24,7 +26,7 @@ public class Mapper {
         return new GameOfLifeResponse(updatedCoordinates);
     }
 
-    public  GameOfLifeInitBoardResponse mapInitBoardResponse() {
+    public  GameOfLifeInitBoardResponse createGetResponse() {
         return new GameOfLifeInitBoardResponse(ROWS, COLUMNS);
     }
 

@@ -3,22 +3,41 @@ package com.github.lilo4591;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameImplTest {
     private GameImpl game;
 
+    private static final int ROWS = 3;
+    private static final int COLUMNS = 3;
     private static final Logger LOGGER = Logger.getLogger(GameImplTest.class.getName());
 
 
     @BeforeEach
     public void setUp() {
-        game = new GameImpl();
+        GameBoard gameBoard = new GameBoard(3, 3);
+        game = new GameImpl(gameBoard);
+    }
+
+    private static Stream<Arguments> provideParameters() {
+        return Stream.of(
+                Arguments.of(0, 0),
+                Arguments.of(0, 1),
+                Arguments.of(0, 2),
+                Arguments.of(1, 0),
+                Arguments.of(1, 1),
+                Arguments.of(1, 2),
+                Arguments.of(2, 0),
+                Arguments.of(2, 1),
+                Arguments.of(2, 2)
+        );
     }
 
     /**
@@ -43,26 +62,35 @@ class GameImplTest {
      * And so on..
      * */
     @ParameterizedTest
-    @ValueSource(ints = {0,1,2})
-    void testOneCoordinateAlive(int column) {
-        for (int row = 0; row < 3 ; row++) {
-            check(row, column);
-        }
-    }
-
-    private void check(int row, int column) {
+    @MethodSource("provideParameters")
+    void testOneCoordinateAlive(int row, int column) {
         ArrayList<int[]> aliveCells = new ArrayList<>();
         int[] coordinate = {row,column};
         aliveCells.add(coordinate);
 
-        int rows = 3;
-        int columns = 3;
-        game.initializeSimulation(rows, columns, aliveCells);
+        game.initializeActiveCellsOnBoard(aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info(String.format("Test of coordinate (%s , %s)", row, column));
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < columns; c++) {
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLUMNS; c++) {
+                assertFalse(gameBoard.getCellValue(r, c));
+            }
+        }
+    }
+
+    @Test
+    void testAliveCellsOutsideBoard() {
+        ArrayList<int[]> aliveCells = new ArrayList<>();
+        aliveCells.add(new int[]{0, 9});
+        aliveCells.add(new int[]{8, 1});
+
+        game.initializeActiveCellsOnBoard(aliveCells);
+        game.update();
+        GameBoard gameBoard = game.getGameBoard();
+        LOGGER.info("Test of alive cell in coordinates (0, 9) and (8, 1)");
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLUMNS; c++) {
                 assertFalse(gameBoard.getCellValue(r, c));
             }
         }
@@ -80,14 +108,12 @@ class GameImplTest {
         aliveCells.add(new int[]{0, 0});
         aliveCells.add(new int[]{0, 1});
 
-        int rows = 3;
-        int columns = 3;
-        game.initializeSimulation(rows, columns, aliveCells);
+        game.initializeActiveCellsOnBoard(aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info("Test of alive cell in coordinates (0, 0) and (0, 1)");
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < columns; c++) {
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLUMNS; c++) {
                 assertFalse(gameBoard.getCellValue(r, c));
             }
         }
@@ -105,14 +131,12 @@ class GameImplTest {
         aliveCells.add(new int[]{0, 0});
         aliveCells.add(new int[]{1, 1});
 
-        int rows = 3;
-        int columns = 3;
-        game.initializeSimulation(rows, columns, aliveCells);
+        game.initializeActiveCellsOnBoard(aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info("Test of alive cell in coordinates (0, 0) and (1, 1)");
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < columns; c++) {
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLUMNS; c++) {
                 assertFalse(gameBoard.getCellValue(r, c));
             }
         }
@@ -130,14 +154,12 @@ class GameImplTest {
         aliveCells.add(new int[]{0, 0});
         aliveCells.add(new int[]{1, 0});
 
-        int rows = 3;
-        int columns = 3;
-        game.initializeSimulation(rows, columns, aliveCells);
+        game.initializeActiveCellsOnBoard(aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info("Test of alive cell in coordinates (0, 0) and (1, 0)");
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < columns; c++) {
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLUMNS; c++) {
                 assertFalse(gameBoard.getCellValue(r, c));
             }
         }
@@ -155,14 +177,12 @@ class GameImplTest {
         aliveCells.add(new int[]{1, 1});
         aliveCells.add(new int[]{2, 2});
 
-        int rows = 3;
-        int columns = 3;
-        game.initializeSimulation(rows, columns, aliveCells);
+        game.initializeActiveCellsOnBoard(aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info("Test of alive cell in coordinates (1, 1) and (2, 2)");
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < columns; c++) {
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLUMNS; c++) {
                 assertFalse(gameBoard.getCellValue(r, c));
             }
         }
@@ -181,9 +201,7 @@ class GameImplTest {
         aliveCells.add(new int[]{1, 1});
         aliveCells.add(new int[]{2, 2});
 
-        int rows = 3;
-        int columns = 3;
-        game.initializeSimulation(rows, columns, aliveCells);
+        game.initializeActiveCellsOnBoard(aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info("Test of alive cell in coordinates (0, 0), (1,1) and (2, 2)");
@@ -218,9 +236,7 @@ class GameImplTest {
         aliveCells.add(new int[]{1, 1});
         aliveCells.add(new int[]{2, 2});
 
-        int rows = 3;
-        int columns = 3;
-        game.initializeSimulation(rows, columns, aliveCells);
+        game.initializeActiveCellsOnBoard(aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info("Test of alive cell in coordinates (0, 0), (1,0), (1,1) and (2, 2)");
@@ -255,9 +271,7 @@ class GameImplTest {
         aliveCells.add(new int[]{2, 1});
         aliveCells.add(new int[]{2, 2});
 
-        int rows = 3;
-        int columns = 3;
-        game.initializeSimulation(rows, columns, aliveCells);
+        game.initializeActiveCellsOnBoard(aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info("Test of alive cell in coordinates (0,0), (1,0), (1,1) (2,0) (2,1) and (2, 2)");
@@ -292,7 +306,7 @@ class GameImplTest {
         aliveCells.add(new int[]{2, 1});
         aliveCells.add(new int[]{2, 2});
 
-        game.initializeSimulation(3, 3, aliveCells);
+        game.initializeActiveCellsOnBoard(aliveCells);
 
         int twoNeighbours = game.countLiveNeighbours(0,0);
         assertEquals(2, twoNeighbours);

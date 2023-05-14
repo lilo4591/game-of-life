@@ -3,17 +3,29 @@ package com.github.lilo4591;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class GameImpl {
 
     private GameBoard gameBoard;
 
-    public GameImpl() {
+    private static final Logger LOGGER = Logger.getLogger(GameImpl.class.getName());
+
+    public GameImpl(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
     }
 
-    public void initializeSimulation(int rows, int columns, List<int[]> aliveCells) {
-        gameBoard = new GameBoard(rows, columns);
-        aliveCells.forEach(cord -> gameBoard.setCellValue(cord[0], cord[1], true));
+    public void initializeActiveCellsOnBoard(List<int[]> aliveCells) {
+        aliveCells.forEach(cord -> {
+            int aliveRow = cord[0];
+            int aliveColumn = cord[1];
+            if (checkCellIsInsideBoard(gameBoard.getRows(), gameBoard.getCols(), aliveRow, aliveColumn)) {
+                gameBoard.setCellValue(aliveRow, aliveColumn, true);
+            }
+            else {
+                LOGGER.severe(String.format("Alive cell (%s,%s) provided is outside board! Skipping this cell..", aliveRow, aliveColumn));
+            }
+        });
     }
 
     public GameBoard getGameBoard() {
@@ -29,10 +41,10 @@ public class GameImpl {
     }
 
     /*
-     *                           0   1   2
-     * [(0,0),(0,1),(0,2)]   0   A   B   C
-     * [(1,0),(1,1),(1,2)]   1   D   E   F
-     * [(2,0),(2,1),(2,2)]   2   G   H   I
+     *
+     * [(0,0),(0,1),(0,2)]
+     * [(1,0),(1,1),(1,2)]
+     * [(2,0),(2,1),(2,2)]
      *
      * */
 
@@ -51,6 +63,14 @@ public class GameImpl {
         return count;
     }
 
+    private boolean checkRuleFour(int count) {
+        return count == 3;
+    }
+
+    private boolean checkRuleOneTwoAndThree(int count) {
+        return count >= 2 && count <= 3;
+    }
+
     public List<int[]> update() {
         int rows = gameBoard.getRows();
         int columns = gameBoard.getCols();
@@ -61,16 +81,14 @@ public class GameImpl {
             for (int c = 0; c < columns; c++) {
                 int count = countLiveNeighbours(r, c);
                 if (gameBoard.getCellValue(r, c)) {
-                    // Rule 1, 2 and 3
-                    boolean isAlive = count >= 2 && count <= 3;
+                    boolean isAlive = checkRuleOneTwoAndThree(count);
                     updatedGameBoard.setCellValue(r, c, isAlive);
                     if (isAlive) {
                         int[] cell = {r, c};
                         aliveCoordinates.add(cell);
                     }
                 } else {
-                    // Rule 4
-                    boolean isAlive = count == 3;
+                    boolean isAlive = checkRuleFour(count);
                     updatedGameBoard.setCellValue(r, c, isAlive);
                     if (isAlive) {
                         int[] cell = {r, c};

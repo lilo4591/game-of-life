@@ -11,13 +11,13 @@ public class GameServiceController {
     private final Mapper mapper = new Mapper();
     @GetMapping("/game")
     public ResponseEntity<GameOfLifeInitBoardResponse> gameInit() {
-        return ResponseEntity.ok(mapper.mapInitBoardResponse());
+        return ResponseEntity.ok(mapper.createGetResponse());
     }
 
     @PostMapping(
             value = "/game", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GameOfLifeResponse> gameTick(@RequestBody GameOfLifeRequest request) {
-        return ResponseEntity.ok(mapper.handleRequest(request));
+        return ResponseEntity.ok(mapper.handlePostRequest(request));
     }
 
 }
