@@ -7,32 +7,25 @@ import java.util.List;
 public class GameImpl {
 
     private GameBoard gameBoard;
-    boolean active;
 
     public GameImpl() {
     }
 
-    public void initializeSimulation(int rows, int columns, List<int[]> aliveGrids) {
+    public void initializeSimulation(int rows, int columns, List<int[]> aliveCells) {
         gameBoard = new GameBoard(rows, columns);
-        aliveGrids.forEach(cord -> gameBoard.setGridValue(cord[0], cord[1], true));
+        aliveCells.forEach(cord -> gameBoard.setCellValue(cord[0], cord[1], true));
     }
 
     public GameBoard getGameBoard() {
         return gameBoard;
     }
 
-    public void setActive() {
-        this.active = true;
+    private boolean checkIsInside(int current, int num) {
+        return current >= 0 && current < num;
     }
 
-    public boolean isActive() {
-        return this.active;
-    }
-
-
-
-    private boolean checkGridIsInsideBoard(int numOfRows, int numOfCols, int currentRow, int currentCol) {
-        return currentRow >= 0 && currentRow < numOfRows && currentCol >= 0 && currentCol < numOfCols; //TODO readablity and tests
+    private boolean checkCellIsInsideBoard(int numOfRows, int numOfCols, int currentRow, int currentCol) {
+        return checkIsInside(currentRow, numOfRows) && checkIsInside(currentCol, numOfCols);
     }
 
     /*
@@ -49,8 +42,8 @@ public class GameImpl {
         int numOfCols = gameBoard.getCols();
         for (int r = row - 1; r <= row + 1; r++) {
             for (int c =  column - 1; c <= column + 1; c++) {
-                if (isNotCurrentGrid(row, column, r, c) && checkGridIsInsideBoard(numOfRows, numOfCols, r, c)
-                        && gameBoard.getGridValue(r, c)) {
+                if (isNotCurrentCell(row, column, r, c) && checkCellIsInsideBoard(numOfRows, numOfCols, r, c)
+                        && gameBoard.getCellValue(r, c)) {
                         count++;
                 }
             }
@@ -58,30 +51,30 @@ public class GameImpl {
         return count;
     }
 
-    public List<int[]>  update() {
+    public List<int[]> update() {
         int rows = gameBoard.getRows();
         int columns = gameBoard.getCols();
-        List<int[]> aliveCoordinates = new ArrayList();
+        List<int[]> aliveCoordinates = new ArrayList<>();
 
         GameBoard updatedGameBoard = new GameBoard(rows, columns);
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
                 int count = countLiveNeighbours(r, c);
-                if (gameBoard.getGridValue(r, c)) {
+                if (gameBoard.getCellValue(r, c)) {
                     // Rule 1, 2 and 3
                     boolean isAlive = count >= 2 && count <= 3;
-                    updatedGameBoard.setGridValue(r, c, isAlive);
+                    updatedGameBoard.setCellValue(r, c, isAlive);
                     if (isAlive) {
-                        int[] tuple = {r, c};
-                        aliveCoordinates.add(tuple);
+                        int[] cell = {r, c};
+                        aliveCoordinates.add(cell);
                     }
                 } else {
                     // Rule 4
                     boolean isAlive = count == 3;
-                    updatedGameBoard.setGridValue(r, c, isAlive);
+                    updatedGameBoard.setCellValue(r, c, isAlive);
                     if (isAlive) {
-                        int[] tuple = {r, c};
-                        aliveCoordinates.add(tuple);
+                        int[] cell = {r, c};
+                        aliveCoordinates.add(cell);
                     }
                 }
             }
@@ -90,7 +83,7 @@ public class GameImpl {
         return aliveCoordinates;
     }
 
-    private static boolean isNotCurrentGrid(int row, int column, int r, int c) {
+    private static boolean isNotCurrentCell(int row, int column, int r, int c) {
         return !(r == row && c == column);
     }
 }

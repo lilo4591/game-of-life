@@ -3,7 +3,7 @@ package com.github.lilo4591.integration;
 import java.util.List;
 
 public class GameOfLifeRequest {
-    List<int[]> coordinates;
+    private List<int[]> coordinates;
 
     public GameOfLifeRequest() {
     }

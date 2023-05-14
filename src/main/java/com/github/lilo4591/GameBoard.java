@@ -24,13 +24,12 @@ public class GameBoard {
         return cols;
     }
 
-    boolean getGridValue(int row, int column) {
+    boolean getCellValue(int row, int column) {
         return board[row][column];
     }
 
-    //TODO rename better
-    void setGridValue(int row, int column, boolean gridVal) {
-        board[row][column] = gridVal;
+    void setCellValue(int row, int column, boolean cellValue) {
+        board[row][column] = cellValue;
     }
     public void printBoard() {
         Arrays.stream(board)
@@ -38,11 +37,4 @@ public class GameBoard {
                 .forEach(System.out::println);
     }
 
-    /*
-    *                           0   1   2
-    * [(0,0),(0,1),(0,2)]   0   A   B   C
-    * [(1,0),(1,1),(1,2)]   1   D   E   F
-    * [(2,0),(2,1),(2,2)]   2   G   H   I
-    *
-    * */
 }

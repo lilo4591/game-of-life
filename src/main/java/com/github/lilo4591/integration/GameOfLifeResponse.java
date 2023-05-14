@@ -4,7 +4,7 @@ import java.util.List;
 
 public class GameOfLifeResponse {
 
-    List<int[]> coordinates;
+    private List<int[]> coordinates;
 
     public GameOfLifeResponse(List<int[]> coordinates) {
         this.coordinates = coordinates;

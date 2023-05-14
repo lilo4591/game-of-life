@@ -51,19 +51,19 @@ class GameImplTest {
     }
 
     private void check(int row, int column) {
-        ArrayList<int[]> aliveGrids = new ArrayList<>();
+        ArrayList<int[]> aliveCells = new ArrayList<>();
         int[] coordinate = {row,column};
-        aliveGrids.add(coordinate);
+        aliveCells.add(coordinate);
 
         int rows = 3;
         int columns = 3;
-        game.initializeSimulation(rows, columns, aliveGrids);
+        game.initializeSimulation(rows, columns, aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info(String.format("Test of coordinate (%s , %s)", row, column));
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                assertFalse(gameBoard.getGridValue(r, c));
+                assertFalse(gameBoard.getCellValue(r, c));
             }
         }
     }
@@ -75,20 +75,20 @@ class GameImplTest {
      * [false,false,false]       [false,false,false]
      */
     @Test
-    void testOfGridWithTwoAliveCells() {
-        ArrayList<int[]> aliveGrids = new ArrayList<>();
-        aliveGrids.add(new int[]{0, 0});
-        aliveGrids.add(new int[]{0, 1});
+    void testOfGameWithTwoAliveCells() {
+        ArrayList<int[]> aliveCells = new ArrayList<>();
+        aliveCells.add(new int[]{0, 0});
+        aliveCells.add(new int[]{0, 1});
 
         int rows = 3;
         int columns = 3;
-        game.initializeSimulation(rows, columns, aliveGrids);
+        game.initializeSimulation(rows, columns, aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info("Test of alive cell in coordinates (0, 0) and (0, 1)");
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                assertFalse(gameBoard.getGridValue(r, c));
+                assertFalse(gameBoard.getCellValue(r, c));
             }
         }
     }
@@ -100,20 +100,20 @@ class GameImplTest {
      * [false,false,false]       [false,false,false]
      */
     @Test
-    void testOfGridWithTwoAliveCellsDiagonally() {
-        ArrayList<int[]> aliveGrids = new ArrayList<>();
-        aliveGrids.add(new int[]{0, 0});
-        aliveGrids.add(new int[]{1, 1});
+    void testOfGameWithTwoAliveCellsDiagonally() {
+        ArrayList<int[]> aliveCells = new ArrayList<>();
+        aliveCells.add(new int[]{0, 0});
+        aliveCells.add(new int[]{1, 1});
 
         int rows = 3;
         int columns = 3;
-        game.initializeSimulation(rows, columns, aliveGrids);
+        game.initializeSimulation(rows, columns, aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info("Test of alive cell in coordinates (0, 0) and (1, 1)");
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                assertFalse(gameBoard.getGridValue(r, c));
+                assertFalse(gameBoard.getCellValue(r, c));
             }
         }
     }
@@ -125,20 +125,20 @@ class GameImplTest {
      * [false,false,false]       [false,false,false]
      */
     @Test
-    void testOfGridWithTwoAliveCellsVertically() {
-        ArrayList<int[]> aliveGrids = new ArrayList<>();
-        aliveGrids.add(new int[]{0, 0});
-        aliveGrids.add(new int[]{1, 0});
+    void testOfGameWithTwoAliveCellsVertically() {
+        ArrayList<int[]> aliveCells = new ArrayList<>();
+        aliveCells.add(new int[]{0, 0});
+        aliveCells.add(new int[]{1, 0});
 
         int rows = 3;
         int columns = 3;
-        game.initializeSimulation(rows, columns, aliveGrids);
+        game.initializeSimulation(rows, columns, aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info("Test of alive cell in coordinates (0, 0) and (1, 0)");
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                assertFalse(gameBoard.getGridValue(r, c));
+                assertFalse(gameBoard.getCellValue(r, c));
             }
         }
     }
@@ -150,20 +150,20 @@ class GameImplTest {
      * [false,false, true]       [false,false,false]
      */
     @Test
-    void testOfGridWithTwoAliveCellsVerticallyInTheMiddle() {
-        ArrayList<int[]> aliveGrids = new ArrayList<>();
-        aliveGrids.add(new int[]{1, 1});
-        aliveGrids.add(new int[]{2, 2});
+    void testOfGameWithTwoAliveCellsVerticallyInTheMiddle() {
+        ArrayList<int[]> aliveCells = new ArrayList<>();
+        aliveCells.add(new int[]{1, 1});
+        aliveCells.add(new int[]{2, 2});
 
         int rows = 3;
         int columns = 3;
-        game.initializeSimulation(rows, columns, aliveGrids);
+        game.initializeSimulation(rows, columns, aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info("Test of alive cell in coordinates (1, 1) and (2, 2)");
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                assertFalse(gameBoard.getGridValue(r, c));
+                assertFalse(gameBoard.getCellValue(r, c));
             }
         }
     }
@@ -175,30 +175,30 @@ class GameImplTest {
      * [false,false, true]       [false,false,false]
      */
     @Test
-    void testOfGridWithThreeAliveCellsDiagonallyShouldReturnOnlyMiddleAlive() {
-        ArrayList<int[]> aliveGrids = new ArrayList<>();
-        aliveGrids.add(new int[]{0, 0});
-        aliveGrids.add(new int[]{1, 1});
-        aliveGrids.add(new int[]{2, 2});
+    void testOfGameWithThreeAliveCellsDiagonallyShouldReturnOnlyMiddleAlive() {
+        ArrayList<int[]> aliveCells = new ArrayList<>();
+        aliveCells.add(new int[]{0, 0});
+        aliveCells.add(new int[]{1, 1});
+        aliveCells.add(new int[]{2, 2});
 
         int rows = 3;
         int columns = 3;
-        game.initializeSimulation(rows, columns, aliveGrids);
+        game.initializeSimulation(rows, columns, aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info("Test of alive cell in coordinates (0, 0), (1,1) and (2, 2)");
         //first row
-        assertFalse(gameBoard.getGridValue(0,0));
-        assertFalse(gameBoard.getGridValue(0,1));
-        assertFalse(gameBoard.getGridValue(0,2));
+        assertFalse(gameBoard.getCellValue(0,0));
+        assertFalse(gameBoard.getCellValue(0,1));
+        assertFalse(gameBoard.getCellValue(0,2));
         //second row
-        assertFalse(gameBoard.getGridValue(1,0));
-        assertTrue(gameBoard.getGridValue(1,1));
-        assertFalse(gameBoard.getGridValue(1,2));
+        assertFalse(gameBoard.getCellValue(1,0));
+        assertTrue(gameBoard.getCellValue(1,1));
+        assertFalse(gameBoard.getCellValue(1,2));
         //last row
-        assertFalse(gameBoard.getGridValue(2,0));
-        assertFalse(gameBoard.getGridValue(2,1));
-        assertFalse(gameBoard.getGridValue(2,2));
+        assertFalse(gameBoard.getCellValue(2,0));
+        assertFalse(gameBoard.getCellValue(2,1));
+        assertFalse(gameBoard.getCellValue(2,2));
 
     }
 
@@ -211,31 +211,31 @@ class GameImplTest {
      * [false,false, true]      [false,true,false]
      */
     @Test
-    void testOfGridWithFourAliveCellsVerticallyShouldReturnFiveAlive() {
-        ArrayList<int[]> aliveGrids = new ArrayList<>();
-        aliveGrids.add(new int[]{0, 0});
-        aliveGrids.add(new int[]{1, 0});
-        aliveGrids.add(new int[]{1, 1});
-        aliveGrids.add(new int[]{2, 2});
+    void testOfGameWithFourAliveCellsVerticallyShouldReturnFiveAlive() {
+        ArrayList<int[]> aliveCells = new ArrayList<>();
+        aliveCells.add(new int[]{0, 0});
+        aliveCells.add(new int[]{1, 0});
+        aliveCells.add(new int[]{1, 1});
+        aliveCells.add(new int[]{2, 2});
 
         int rows = 3;
         int columns = 3;
-        game.initializeSimulation(rows, columns, aliveGrids);
+        game.initializeSimulation(rows, columns, aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info("Test of alive cell in coordinates (0, 0), (1,0), (1,1) and (2, 2)");
         //first row
-        assertTrue(gameBoard.getGridValue(0,0));
-        assertTrue(gameBoard.getGridValue(0,1));
-        assertFalse(gameBoard.getGridValue(0,2));
+        assertTrue(gameBoard.getCellValue(0,0));
+        assertTrue(gameBoard.getCellValue(0,1));
+        assertFalse(gameBoard.getCellValue(0,2));
         //second row
-        assertTrue(gameBoard.getGridValue(1,0));
-        assertTrue(gameBoard.getGridValue(1,1));
-        assertFalse(gameBoard.getGridValue(1,2));
+        assertTrue(gameBoard.getCellValue(1,0));
+        assertTrue(gameBoard.getCellValue(1,1));
+        assertFalse(gameBoard.getCellValue(1,2));
         //last row
-        assertFalse(gameBoard.getGridValue(2,0));
-        assertTrue(gameBoard.getGridValue(2,1));
-        assertFalse(gameBoard.getGridValue(2,2));
+        assertFalse(gameBoard.getCellValue(2,0));
+        assertTrue(gameBoard.getCellValue(2,1));
+        assertFalse(gameBoard.getCellValue(2,2));
 
     }
 
@@ -246,33 +246,33 @@ class GameImplTest {
      * [true,true, true]       [true,false,true]
      */
     @Test
-    void testOfGridWithSixAliveCellsVerticallyShouldReturnFiveAlive() {
-        ArrayList<int[]> aliveGrids = new ArrayList<>();
-        aliveGrids.add(new int[]{0, 0});
-        aliveGrids.add(new int[]{1, 0});
-        aliveGrids.add(new int[]{1, 1});
-        aliveGrids.add(new int[]{2, 0});
-        aliveGrids.add(new int[]{2, 1});
-        aliveGrids.add(new int[]{2, 2});
+    void testOfGameWithSixAliveCellsVerticallyShouldReturnFiveAlive() {
+        ArrayList<int[]> aliveCells = new ArrayList<>();
+        aliveCells.add(new int[]{0, 0});
+        aliveCells.add(new int[]{1, 0});
+        aliveCells.add(new int[]{1, 1});
+        aliveCells.add(new int[]{2, 0});
+        aliveCells.add(new int[]{2, 1});
+        aliveCells.add(new int[]{2, 2});
 
         int rows = 3;
         int columns = 3;
-        game.initializeSimulation(rows, columns, aliveGrids);
+        game.initializeSimulation(rows, columns, aliveCells);
         game.update();
         GameBoard gameBoard = game.getGameBoard();
         LOGGER.info("Test of alive cell in coordinates (0,0), (1,0), (1,1) (2,0) (2,1) and (2, 2)");
         //first row
-        assertTrue(gameBoard.getGridValue(0,0));
-        assertTrue(gameBoard.getGridValue(0,1));
-        assertFalse(gameBoard.getGridValue(0,2));
+        assertTrue(gameBoard.getCellValue(0,0));
+        assertTrue(gameBoard.getCellValue(0,1));
+        assertFalse(gameBoard.getCellValue(0,2));
         //second row
-        assertFalse(gameBoard.getGridValue(1,0));
-        assertFalse(gameBoard.getGridValue(1,1));
-        assertTrue(gameBoard.getGridValue(1,2));
+        assertFalse(gameBoard.getCellValue(1,0));
+        assertFalse(gameBoard.getCellValue(1,1));
+        assertTrue(gameBoard.getCellValue(1,2));
         //last row
-        assertTrue(gameBoard.getGridValue(2,0));
-        assertFalse(gameBoard.getGridValue(2,1));
-        assertTrue(gameBoard.getGridValue(2,2));
+        assertTrue(gameBoard.getCellValue(2,0));
+        assertFalse(gameBoard.getCellValue(2,1));
+        assertTrue(gameBoard.getCellValue(2,2));
     }
 
 
@@ -284,15 +284,15 @@ class GameImplTest {
      */
     @Test
     void testCountLiveNeighbours() {
-        ArrayList<int[]> aliveGrids = new ArrayList<>();
-        aliveGrids.add(new int[]{0, 0});
-        aliveGrids.add(new int[]{1, 0});
-        aliveGrids.add(new int[]{1, 1});
-        aliveGrids.add(new int[]{2, 0});
-        aliveGrids.add(new int[]{2, 1});
-        aliveGrids.add(new int[]{2, 2});
+        ArrayList<int[]> aliveCells = new ArrayList<>();
+        aliveCells.add(new int[]{0, 0});
+        aliveCells.add(new int[]{1, 0});
+        aliveCells.add(new int[]{1, 1});
+        aliveCells.add(new int[]{2, 0});
+        aliveCells.add(new int[]{2, 1});
+        aliveCells.add(new int[]{2, 2});
 
-        game.initializeSimulation(3, 3, aliveGrids);
+        game.initializeSimulation(3, 3, aliveCells);
 
         int twoNeighbours = game.countLiveNeighbours(0,0);
         assertEquals(2, twoNeighbours);

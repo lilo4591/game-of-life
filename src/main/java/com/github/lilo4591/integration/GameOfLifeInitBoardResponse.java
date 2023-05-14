@@ -2,8 +2,11 @@ package com.github.lilo4591.integration;
 
 public class GameOfLifeInitBoardResponse {
 
-    int rows;
-    int columns;
+    private int rows;
+    private int columns;
+
+    public GameOfLifeInitBoardResponse() {
+    }
 
     public GameOfLifeInitBoardResponse(int rows, int columns) {
         this.rows = rows;
@@ -16,9 +19,6 @@ public class GameOfLifeInitBoardResponse {
 
     public int getColumns() {
         return columns;
-    }
-
-    public GameOfLifeInitBoardResponse() {
     }
 
 }
